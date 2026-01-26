@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - Agency</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reuse styles from index.html */
+        body { background: #f5f6ff; overflow-x: hidden; font-family: 'Poppins', sans-serif; }
+        .navbar { background: linear-gradient(90deg, #ffffff 0%, #e0f7fa 50%, #f3e5f5 100%); }
+        .navbar-brand { font-weight: bold; letter-spacing: 1px; text-transform: uppercase; color: #0d6efd !important; }
+        .navbar-nav { gap: 2rem; }
+        .nav-link { transition: all 0.3s ease; font-size: 1.05rem; font-weight: 700; background: linear-gradient(45deg, #0d6efd, #6f42c1, #0dcaf0); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent !important; }
+        .nav-link:hover { transform: translateY(-2px); background: linear-gradient(45deg, #0dcaf0, #0d6efd); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-link.active { background: linear-gradient(45deg, #6f42c1, #0d6efd); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; border-bottom: 2px solid #6f42c1; }
+        
+        .navbar-toggler { border: none; padding: 0; }
+        .navbar-toggler:focus { box-shadow: none; }
+        .fancy-toggler-icon { width: 28px; height: 20px; position: relative; transform: rotate(0deg); transition: .5s ease-in-out; cursor: pointer; }
+        .fancy-toggler-icon span { display: block; position: absolute; height: 3px; width: 100%; background: linear-gradient(45deg, #0d6efd, #6f42c1); border-radius: 9px; opacity: 1; left: 0; transform: rotate(0deg); transition: .25s ease-in-out; }
+        .fancy-toggler-icon span:nth-child(1) { top: 0px; }
+        .fancy-toggler-icon span:nth-child(2) { top: 8px; }
+        .fancy-toggler-icon span:nth-child(3) { top: 16px; }
+        .navbar-toggler[aria-expanded="true"] .fancy-toggler-icon span:nth-child(1) { top: 8px; transform: rotate(135deg); }
+        .navbar-toggler[aria-expanded="true"] .fancy-toggler-icon span:nth-child(2) { opacity: 0; left: -30px; }
+        .navbar-toggler[aria-expanded="true"] .fancy-toggler-icon span:nth-child(3) { top: 8px; transform: rotate(-135deg); }
+
+        /* Dark Hero */
+        .services-hero {
+            background: transparent;
+            padding: 120px 0 80px;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100vh;
+            height: 100vw;
+            object-fit: cover;
+            z-index: -2;
+            transform: translate(-50%, -50%) rotate(90deg);
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+        .animate-name { background: linear-gradient(90deg, #0d6efd, #0dcaf0, #6f42c1, #0d6efd); background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shimmer 4s infinite linear; }
+        @keyframes shimmer { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
+        .text-gradient { background: linear-gradient(45deg, #0d6efd, #6f42c1, #0dcaf0); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; display: inline-block; }
+
+        /* Highlight Card Section */
+        .highlight-card { background: transparent; padding: 50px 20px; margin-top: -40px; position: relative; z-index: 2; border-radius: 15px; max-width: 900px; margin-left: auto; margin-right: auto; }
+        .highlight-item i { font-size: 2.5rem; margin-bottom: 15px; }
+        .highlight-item h5 { font-weight: 700; margin-bottom: 5px; color: #1c2340; }
+        .highlight-item p { font-size: 0.9rem; color: #6c757d; max-width: 250px; margin: 0 auto; }
+        @media (max-width: 768px) {
+            .highlight-card { padding: 30px 15px; max-width: 90%; }
+            .highlight-item { margin-bottom: 25px; }
+            .highlight-item:last-child { margin-bottom: 0; }
+        }
+
+        /* CSS Houdini for smooth rotation */
+        @property --angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        /* Neon Flow Border Effect */
+        .highlight-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: #fff;
+            border-radius: 15px;
+            z-index: -1;
+        }
+        .highlight-card::after {
+            content: '';
+            position: absolute;
+            top: -3px; left: -3px; right: -3px; bottom: -3px;
+            background: conic-gradient(from var(--angle), #0d6efd, #0dcaf0, #6f42c1, #0d6efd);
+            z-index: -2;
+            border-radius: 18px;
+            animation: rotate-border 4s linear infinite;
+            box-shadow: 0 0 20px rgba(13, 110, 253, 0.5);
+        }
+        @keyframes rotate-border { to { --angle: 360deg; } }
+
+        /* Services Section */
+        .services-section{
+            padding:80px 0;
+        }
+
+        .services-title{
+            text-align:center;
+            margin-bottom:60px;
+        }
+
+        .services-title h2{
+            font-weight:800;
+            color:#0b1c3d;
+        }
+
+        .service-card {
+            background:#fff;
+            /* Keep the slant left top corner */
+            clip-path: polygon(40px 0, 100% 0, 100% 100%, 0 100%, 0 40px);
+            overflow:hidden;
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.05));
+            transition: all 0.4s ease;
+            position:relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .service-card:hover{
+            transform:translateY(-8px);
+            filter: drop-shadow(0 20px 30px rgba(13, 110, 253, 0.2));
+        }
+
+        .service-img {
+            height: 240px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .service-img img{
+            width:100%;
+            height:100%;
+            object-fit:cover;
+            transition: transform 0.6s ease;
+        }
+
+        .service-card:hover .service-img img {
+            transform: scale(1.1);
+        }
+
+        /* Gradient overlay on image hover */
+        .service-img::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(13, 110, 253, 0.4), transparent);
+            opacity: 0;
+            transition: 0.4s;
+            z-index: 1;
+        }
+        .service-card:hover .service-img::before {
+            opacity: 1;
+        }
+
+        .service-icon {
+            width:70px;
+            height:70px;
+            background: #fff;
+            color: #0d6efd;
+            border-radius: 12px; /* Modern rounded square */
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            position:absolute;
+            top:205px;
+            left:30px;
+            font-size: 1.8rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            z-index: 2;
+            transition: all 0.4s ease;
+        }
+
+        .service-card:hover .service-icon {
+            background: linear-gradient(135deg, #0d6efd, #6f42c1);
+            color: #fff;
+            transform: rotate(-5deg) scale(1.1);
+            box-shadow: 0 10px 20px rgba(13, 110, 253, 0.3);
+        }
+
+        .service-content{ padding:50px 30px 30px; }
+        
+        .service-content h5{ 
+            font-weight:800; 
+            color:#1c2340; 
+            margin-bottom: 15px; 
+            transition: color 0.3s;
+        }
+        
+        .service-card:hover .service-content h5 {
+            color: #0d6efd;
+        }
+
+        .service-content p{ font-size:15px; color:#6c757d; line-height: 1.6; margin-bottom: 0; }
+        
+        .service-card::after{ 
+            content:''; 
+            position:absolute; 
+            bottom:0; 
+            left:0; 
+            width:100%; 
+            height:4px; 
+            background: linear-gradient(90deg, #0d6efd, #6f42c1); 
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease; 
+        }
+        .service-card:hover::after{ transform: scaleX(1); }
+
+        /* Process Section */
+        .process-section{
+            padding:80px 0;
+            background: linear-gradient(120deg,#f4f5ff,#eef0ff);
+        }
+
+        .process-title{
+            text-align:center;
+            margin-bottom:70px;
+        }
+
+        .process-title span{
+            color:#7b7bff;
+            font-weight:600;
+            font-size:14px;
+        }
+
+        .process-title h2{
+            font-weight:700;
+        }
+
+        .process-wrapper{
+            position:relative;
+        }
+
+        .process-line{
+            position:absolute;
+            bottom: 105px;
+            top: auto;
+            left:0;
+            width:100%;
+            height:80px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,50 Q12.5,0 25,50 T50,50 T75,50 T100,50" stroke="%23dcdcff" stroke-width="3" fill="none"/></svg>');
+            background-size: 100% 100%;
+            z-index:0;
+            transform: none;
+        }
+
+        .process-step{
+            position:relative;
+            text-align:center;
+            z-index:1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            height: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .process-step:nth-child(odd) { transform: translateY(-40px); }
+            .process-step:nth-child(even) { transform: translateY(40px); }
+            .process-wrapper { padding-bottom: 100px; }
+        }
+        
+        @media (max-width: 767px) {
+            .process-wrapper { padding-bottom: 20px; }
+            .process-line {
+                width: 60px;
+                height: 100%;
+                top: 0;
+                bottom: auto;
+                left: 15px;
+                background: transparent;
+                background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 200" preserveAspectRatio="none"><path d="M30,0 Q60,50 30,100 T30,200" stroke="%23dcdcff" stroke-width="3" fill="none"/></svg>');
+                background-size: 100% 200px;
+                background-repeat: repeat-y;
+                transform: none;
+            }
+            .process-step { 
+                display: grid;
+                grid-template-columns: 90px 1fr;
+                grid-template-rows: auto auto;
+                column-gap: 20px;
+                text-align: left;
+                margin-bottom: 40px;
+                transform: none !important;
+                height: auto;
+                padding: 0 15px;
+            }
+            .process-step:last-child { margin-bottom: 0; }
+            
+            .process-circle {
+                grid-row: 1 / span 2;
+                grid-column: 1;
+                margin: 0;
+                position: relative;
+                order: unset;
+                transform: none !important;
+            }
+            
+            .process-step h6 { grid-column: 2; grid-row: 1; margin-top: 15px; order: unset; }
+            .process-step p { grid-column: 2; grid-row: 2; order: unset; }
+        }
+
+        .process-circle{
+            width:90px;
+            height:90px;
+            background:white;
+            border-radius:50%;
+            margin:20px auto 0;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            box-shadow:0 10px 25px rgba(0,0,0,0.1);
+            position:relative;
+            order: 2;
+            z-index: 2;
+        }
+
+        .process-circle span{ position:absolute; top:-10px; left:-10px; background:#6c63ff; color:white; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; }
+        .process-circle img{ width:40px; }
+        .process-step h6{ font-weight:600; margin-top:0; margin-bottom: 10px; order: 0; }
+        .process-step p{ font-size:14px; color:#666; margin-bottom: 0; order: 1; }
+
+        /* Newsletter & Footer */
+        .newsletter-card { background: linear-gradient(135deg, #e0f7fa 0%, #f3e5f5 100%) padding-box, linear-gradient(45deg, #0d6efd, #6f42c1) border-box; border: 3px solid transparent; border-radius: 16px; padding: 30px; color: #1c2340; position: relative; margin: 80px auto 0; max-width: 800px; z-index: 10; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); }
+        footer { background: #fff; margin-top: -60px; padding-top: 80px; padding-bottom: 20px; position: relative; z-index: 1; }
+        .footer-logo { font-weight: 700; font-size: 20px; }
+        .footer-links h6 { font-weight: 600; margin-bottom: 15px; }
+        .footer-links a { display: block; font-size: 14px; color: #6c757d; text-decoration: none; margin-bottom: 8px; }
+        .footer-links a:hover { color: #4f79e4; }
+        .social-icons a { color: #4f79e4; margin-right: 10px; font-size: 16px; display: inline-block; }
+        .footer-bottom { border-top: 1px solid #eee; padding: 15px 0; margin-top: 30px; font-size: 14px; color: #6c757d; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light shadow p-3">
+    <div class="container">
+        <a class="navbar-brand" href="index.html">Agency</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <div class="fancy-toggler-icon"><span></span><span></span><span></span></div>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="index.html"><i class="fa fa-home me-2"></i>Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html"><i class="fa fa-user me-2"></i>About</a></li>
+                <li class="nav-item"><a class="nav-link active" href="services.html"><i class="fa fa-cogs me-2"></i>Services</a></li>
+                <li class="nav-item"><a class="nav-link" href="contact.html"><i class="fa fa-envelope me-2"></i>Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<header class="services-hero">
+    <video autoplay muted loop playsinline class="hero-video">
+        <source src="hero1.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="container position-relative" style="z-index: 2;">
+        <h1 class="display-4 fw-bold mb-3">Solutions that Scale</h1>
+        <p class="lead mx-auto opacity-75" style="max-width: 600px;">We build digital products that help you grow, engage, and succeed in a connected world.</p>
+    </div>
+</header>
+
+<div class="container">
+    <div class="highlight-card">
+        <div class="row text-center">
+            <div class="col-md-4 highlight-item">
+                <i class="fa fa-chess-queen text-gradient"></i>
+                <h5>Custom Strategy</h5>
+                <p>Tailored digital roadmaps designed specifically for your brand's growth.</p>
+            </div>
+            <div class="col-md-4 highlight-item">
+                <i class="fa fa-bolt text-gradient"></i>
+                <h5>Agile Execution</h5>
+                <p>Rapid, iterative development ensuring transparency and speed.</p>
+            </div>
+            <div class="col-md-4 highlight-item">
+                <i class="fa fa-chart-line text-gradient"></i>
+                <h5>Growth Focus</h5>
+                <p>Data-driven decisions to maximize your Return on Investment.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="services-section">
+    <div class="container">
+        
+        <div class="services-title">
+            <small class="text-gradient">— Our Services</small>
+            <h2>Services That Fit <span class="text-gradient">Your Needs</span></h2>
+        </div>
+
+        <div class="row g-2 justify-content-center">
+            
+            <!-- Card 1 -->
+            <div class="col-lg-4 col-md-4">
+                <div class="service-card">
+                    <div class="service-img"><img src="https://images.unsplash.com/photo-1581091012184-7c54c6a07f30?q=80&w=2070" alt=""></div>
+                    <div class="service-icon"><i class="fa fa-code"></i></div>
+                    <div class="service-content">
+                        <h5>Web Development</h5>
+                        <p>Robust, scalable websites built with modern technologies like React, Vue, and Node.js.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="col-lg-4 col-md-4">
+                <div class="service-card">
+                    <div class="service-img"><img src="https://images.unsplash.com/photo-1605106702734-205df224ecce?q=80&w=2070" alt=""></div>
+                    <div class="service-icon"><i class="fa fa-mobile-alt"></i></div>
+                    <div class="service-content">
+                        <h5>App Development</h5>
+                        <p>Native and cross-platform mobile applications that provide seamless user experiences.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="col-lg-4 col-md-4">
+                <div class="service-card">
+                    <div class="service-img"><img src="https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=2070" alt=""></div>
+                    <div class="service-icon"><i class="fa fa-paint-brush"></i></div>
+                    <div class="service-content">
+                        <h5>UI/UX Design</h5>
+                        <p>User-centric design that combines aesthetics with functionality for higher conversion.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="col-lg-4 col-md-4">
+                <div class="service-card">
+                    <div class="service-img"><img src="https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=2071" alt=""></div>
+                    <div class="service-icon"><i class="fa fa-bullhorn"></i></div>
+                    <div class="service-content">
+                        <h5>Digital Marketing</h5>
+                        <p>Data-driven strategies including SEO, PPC, and social media to grow your brand.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="col-lg-4 col-md-4">
+                <div class="service-card">
+                    <div class="service-img"><img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=2070" alt=""></div>
+                    <div class="service-icon"><i class="fa fa-search"></i></div>
+                    <div class="service-content">
+                        <h5>SEO Optimization</h5>
+                        <p>Improving your visibility on search engines to drive organic traffic to your site.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="col-lg-4 col-md-4">
+                <div class="service-card">
+                    <div class="service-img"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070" alt=""></div>
+                    <div class="service-icon"><i class="fa fa-chart-line"></i></div>
+                    <div class="service-content">
+                        <h5>Live Dashboard</h5>
+                        <p>Real-time monitoring and interactive data visualization for instant insights.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="process-section" id="process">
+    <div class="container">
+        <div class="process-title">
+            <span>OUR PROCESS</span>
+            <h2>Our Working Process</h2>
+        </div>
+
+        <div class="process-wrapper">
+            <div class="process-line"></div>
+
+            <div class="row text-center">
+                <div class="col-md-3 process-step">
+                    <div class="process-circle">
+                        <span>01</span>
+                        <img src="https://cdn-icons-png.flaticon.com/512/3500/3500833.png" alt="Choose Service">
+                    </div>
+                    <h6>Choose A Service</h6>
+                    <p>Select the service that fits your business needs.</p>
+                </div>
+
+                <div class="col-md-3 process-step">
+                    <div class="process-circle">
+                        <span>02</span>
+                        <img src="https://cdn-icons-png.flaticon.com/512/2920/2920277.png" alt="Order Management">
+                    </div>
+                    <h6>Order Management</h6>
+                    <p>We analyze requirements and plan execution.</p>
+                </div>
+
+                <div class="col-md-3 process-step">
+                    <div class="process-circle">
+                        <span>03</span>
+                        <img src="https://cdn-icons-png.flaticon.com/512/1256/1256650.png" alt="Request Meeting">
+                    </div>
+                    <h6>Request A Meeting</h6>
+                    <p>Discussion and strategy finalization.</p>
+                </div>
+
+                <div class="col-md-3 process-step">
+                    <div class="process-circle">
+                        <span>04</span>
+                        <img src="https://cdn-icons-png.flaticon.com/512/942/942748.png" alt="Final Solution">
+                    </div>
+                    <h6>Final Solution</h6>
+                    <p>We deliver the final high-quality solution.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+  <div class="newsletter-card">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-lg-10 text-center">
+            <div class="footer-logo mb-3" style="font-size: 2rem;">🌀 Agency</div>
+            <p class="lead mb-4 text-muted" style="max-width: 700px; margin-left: auto; margin-right: auto;">We craft immersive digital experiences by merging stunning web design with data-driven marketing strategies.</p>
+        </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-6 col-md-4 footer-links text-center order-1 order-md-1">
+                <h6>Quick Links</h6>
+                <a href="about.html">About Us</a>
+                <a href="services.html">Services</a>
+                <a href="#">Community</a>
+                <a href="#">Testimonial</a>
+            </div>
+            <div class="col-12 col-md-4 footer-links text-center order-3 order-md-2 mt-4 mt-md-0">
+                <h6>Social Media</h6>
+                <a href="#"><i class="fab fa-facebook me-2"></i>Facebook</a>
+                <a href="#"><i class="fab fa-twitter me-2"></i>Twitter</a>
+                <a href="#"><i class="fab fa-instagram me-2"></i>Instagram</a>
+                <a href="#"><i class="fab fa-linkedin me-2"></i>LinkedIn</a>
+            </div>
+            <div class="col-6 col-md-4 footer-links text-center order-2 order-md-3">
+                <h6>Contact Us</h6>
+                <a href="#"><i class="fa fa-phone me-2"></i>+1 (555) 123-4567</a>
+                <a href="#"><i class="fa fa-envelope me-2"></i>hello@agency.com</a>
+            </div>
+        </div>
+        <div class="footer-bottom text-center"><span>© 2025 Agency. All rights reserved.</span></div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
