@@ -30,6 +30,23 @@
         .navbar-toggler[aria-expanded="true"] .fancy-toggler-icon span:nth-child(2) { opacity: 0; left: -30px; }
         .navbar-toggler[aria-expanded="true"] .fancy-toggler-icon span:nth-child(3) { top: 8px; transform: rotate(-135deg); }
 
+        .navbar-logo-img {
+            height: 50px;
+        }
+        @media (min-width: 992px) { /* lg breakpoint */
+            .navbar-logo-img {
+                height: 40px;
+            }
+        }
+        .footer-logo-img {
+            height: 50px;
+        }
+        @media (min-width: 768px) { /* md breakpoint */
+            .footer-logo-img {
+                height: 60px;
+            }
+        }
+
         /* Dark Hero */
         .services-hero {
             background: transparent;
@@ -134,7 +151,8 @@
         }
 
         .service-img {
-            height: 240px;
+            height: 100%;
+            min-height: 300px;
             overflow: hidden;
             position: relative;
         }
@@ -165,27 +183,24 @@
         }
 
         .service-icon {
-            width:70px;
-            height:70px;
+            width:60px;
+            height:60px;
             background: #fff;
             color: #0d6efd;
             border-radius: 12px; /* Modern rounded square */
             display:flex;
             align-items:center;
             justify-content:center;
-            position:absolute;
-            top:205px;
-            left:30px;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            z-index: 2;
             transition: all 0.4s ease;
+            margin-right: 20px;
         }
 
-        .service-card:hover .service-icon {
+        .service-row:hover .service-icon {
             background: linear-gradient(135deg, #0d6efd, #6f42c1);
             color: #fff;
-            transform: rotate(-5deg) scale(1.1);
+            transform: rotate(-5deg);
             box-shadow: 0 10px 20px rgba(13, 110, 253, 0.3);
         }
 
@@ -217,6 +232,125 @@
             transition: transform 0.4s ease; 
         }
         .service-card:hover::after{ transform: scaleX(1); }
+
+        /* Sub Service Card Styles */
+        .sub-service-card {
+            background: #fff;
+            padding: 12px 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            height: 100%;
+        }
+        .sub-service-card:hover {
+            transform: translateY(-5px) !important;
+            box-shadow: 0 10px 25px rgba(13, 110, 253, 0.15);
+            animation: none !important;
+        }
+        .sub-service-card i {
+            font-size: 1.2rem;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(13, 110, 253, 0.1);
+            border-radius: 8px;
+            color: #0d6efd;
+            transition: all 0.3s ease;
+        }
+        .sub-service-card:hover i {
+            background: linear-gradient(135deg, #0d6efd, #6f42c1);
+            color: #fff;
+        }
+        .sub-service-card h6 {
+            margin: 0;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #1c2340;
+        }
+        .service-row {
+            margin-bottom: 80px;
+        }
+        .service-row:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Animation for Sub Service Cards to sync with Circle */
+        @keyframes float-tl { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-5px, -5px); } }
+        @keyframes float-tr { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(5px, -5px); } }
+        @keyframes float-bl { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-5px, 5px); } }
+        @keyframes float-br { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(5px, 5px); } }
+
+        .service-grid .col-6:nth-child(1) .sub-service-card { animation: float-tl 3s ease-in-out infinite; }
+        .service-grid .col-6:nth-child(2) .sub-service-card { animation: float-tr 3s ease-in-out infinite; }
+        .service-grid .col-6:nth-child(3) .sub-service-card { animation: float-bl 3s ease-in-out infinite; }
+        .service-grid .col-6:nth-child(4) .sub-service-card { animation: float-br 3s ease-in-out infinite; }
+
+        /* Center Circle & Symmetrical Grid */
+        .center-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            border: 6px solid transparent;
+            background: linear-gradient(135deg, #e0f7fa, #f3e5f5) padding-box, linear-gradient(135deg, #0d6efd, #6f42c1, #0dcaf0) border-box;
+            border-radius: 50%;
+            z-index: 0;
+            box-shadow: 0 0 20px rgba(13, 110, 253, 0.1);
+            animation: pulse-circle 3s infinite ease-in-out;
+        }
+        @keyframes pulse-circle {
+            0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 20px rgba(13, 110, 253, 0.1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 35px rgba(13, 110, 253, 0.25); }
+            100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 20px rgba(13, 110, 253, 0.1); }
+        }
+        .service-grid .col-6:nth-child(odd) .sub-service-card {
+            flex-direction: row;
+            text-align: left;
+            width: 85%;
+            margin-left: auto;
+        }
+        .service-grid .col-6:nth-child(even) .sub-service-card {
+            flex-direction: row-reverse;
+            text-align: right;
+            width: 85%;
+            margin-right: auto;
+        }
+        @media (max-width: 768px) {
+            .center-circle {
+                width: 50px;
+                height: 50px;
+            }
+            .sub-service-card {
+                padding: 8px;
+                gap: 6px;
+            }
+            .sub-service-card i {
+                width: 28px;
+                height: 28px;
+                font-size: 0.9rem;
+            }
+            .sub-service-card h6 {
+                font-size: 0.75rem;
+            }
+        }
+        
+        /* Scroll Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
         /* Process Section */
         .process-section{
@@ -347,7 +481,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light shadow p-3 fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="index.html">Agency</a>
+        <a class="navbar-brand d-flex align-items-center" href="index.html"><img src="images/log.png" alt="Agency Logo" class="navbar-logo-img me-2"> <span class="text-gradient" style="text-transform: none;">Grow</span>&nbsp;<span style="color: black; text-transform: none;">with</span>&nbsp;<span class="text-gradient" style="text-transform: none;">Digital</span></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <div class="fancy-toggler-icon"><span></span><span></span><span></span></div>
         </button>
@@ -403,77 +537,266 @@
             <h2>Services That Fit <span class="text-gradient">Your Needs</span></h2>
         </div>
 
-        <div class="row g-2 justify-content-center">
-            
-            <!-- Card 1 -->
-            <div class="col-lg-4 col-md-4">
+        <!-- Service 1: Web Development -->
+        <div class="row service-row reveal">
+            <div class="col-lg-5 mb-4 mb-lg-0">
                 <div class="service-card">
-                    <div class="service-img"><img src="https://images.unsplash.com/photo-1581091012184-7c54c6a07f30?q=80&w=2070" alt=""></div>
-                    <div class="service-icon"><i class="fa fa-code"></i></div>
-                    <div class="service-content">
-                        <h5>Web Development</h5>
-                        <p>Robust, scalable websites built with modern technologies like React, Vue, and Node.js.</p>
-                    </div>
+                    <div class="service-img"><img src="images/web.jpeg" alt="Web Development"></div>
                 </div>
             </div>
-
-            <!-- Card 2 -->
-            <div class="col-lg-4 col-md-4">
-                <div class="service-card">
-                    <div class="service-img"><img src="https://images.unsplash.com/photo-1605106702734-205df224ecce?q=80&w=2070" alt=""></div>
-                    <div class="service-icon"><i class="fa fa-mobile-alt"></i></div>
-                    <div class="service-content">
-                        <h5>App Development</h5>
-                        <p>Native and cross-platform mobile applications that provide seamless user experiences.</p>
+            <div class="col-lg-7">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="service-icon"><i class="fa fa-laptop-code"></i></div>
+                    <h3 class="fw-bold mb-0">Web Development</h3>
+                </div>
+                <p class="lead text-muted mb-4">Custom, high-performance websites built for scale.</p>
+                <p class="text-muted mb-4">Our web development process covers everything from the visual front-end to the robust back-end, ensuring a seamless and comprehensive digital solution.</p>
+                <div class="row g-3 service-grid position-relative">
+                    <div class="col-6">
+                        <div class="sub-service-card">
+                            <i class="fa fa-code"></i>
+                            <h6>Frontend Development</h6>
+                        </div>
                     </div>
+                    <div class="col-6">
+                        <div class="sub-service-card">
+                            <i class="fa fa-server"></i>
+                            <h6>Backend Systems</h6>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="sub-service-card">
+                            <i class="fa fa-shopping-cart"></i>
+                            <h6>E-commerce Solutions</h6>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="sub-service-card">
+                            <i class="fa fa-layer-group"></i>
+                            <h6>CMS Integration</h6>
+                        </div>
+                    </div>
+                    <div class="center-circle"></div>
                 </div>
             </div>
+        </div>
 
-            <!-- Card 3 -->
-            <div class="col-lg-4 col-md-4">
+        <!-- Service 2: Digital Marketing -->
+        <div class="row service-row reveal">
+            <div class="col-lg-5 mb-4 mb-lg-0">
                 <div class="service-card">
-                    <div class="service-img"><img src="https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=2070" alt=""></div>
-                    <div class="service-icon"><i class="fa fa-paint-brush"></i></div>
-                    <div class="service-content">
-                        <h5>UI/UX Design</h5>
-                        <p>User-centric design that combines aesthetics with functionality for higher conversion.</p>
-                    </div>
+                    <div class="service-img"><img src="images/digital.jpg" alt="Digital Marketing"></div>
                 </div>
             </div>
-
-            <!-- Card 4 -->
-            <div class="col-lg-4 col-md-4">
-                <div class="service-card">
-                    <div class="service-img"><img src="https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=2071" alt=""></div>
+            <div class="col-lg-7">
+                <div class="d-flex align-items-center mb-3">
                     <div class="service-icon"><i class="fa fa-bullhorn"></i></div>
-                    <div class="service-content">
-                        <h5>Digital Marketing</h5>
-                        <p>Data-driven strategies including SEO, PPC, and social media to grow your brand.</p>
+                    <h3 class="fw-bold mb-0">Digital Marketing</h3>
+                </div>
+                <p class="lead text-muted mb-4">SEO, PPC, and social strategies to drive traffic.</p>
+                <p class="text-muted mb-4">We employ a multi-faceted marketing approach to boost your online visibility, engage your audience, and drive conversions.</p>
+                <div class="row g-3 service-grid position-relative">
+                    <div class="col-6">
+                        <div class="sub-service-card">
+                            <i class="fa fa-search"></i>
+                            <h6>SEO Optimization</h6>
+                        </div>
                     </div>
+                    <div class="col-6">
+                        <div class="sub-service-card">
+                            <i class="fa fa-share-alt"></i>
+                            <h6>Social Media Marketing</h6>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="sub-service-card">
+                            <i class="fa fa-ad"></i>
+                            <h6>PPC Advertising</h6>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="sub-service-card">
+                            <i class="fa fa-pen-fancy"></i>
+                            <h6>Content Strategy</h6>
+                        </div>
+                    </div>
+                    <div class="center-circle"></div>
                 </div>
             </div>
+        </div>
 
-            <!-- Card 5 -->
-            <div class="col-lg-4 col-md-4">
+        <!-- Service 3: UI/UX Design -->
+        <div class="row service-row reveal">
+            <div class="col-lg-5 mb-4 mb-lg-0">
                 <div class="service-card">
-                    <div class="service-img"><img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=2070" alt=""></div>
-                    <div class="service-icon"><i class="fa fa-search"></i></div>
-                    <div class="service-content">
-                        <h5>SEO Optimization</h5>
-                        <p>Improving your visibility on search engines to drive organic traffic to your site.</p>
-                    </div>
+                    <div class="service-img"><img src="images/ui ux design.png" alt="UI/UX Design"></div>
                 </div>
             </div>
+            <div class="col-lg-7">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="service-icon"><i class="fa fa-pen-nib"></i></div>
+                    <h3 class="fw-bold mb-0">UI/UX Design</h3>
+                </div>
+                <p class="lead text-muted mb-4">Intuitive interfaces that engage and convert users.</p>
+                <p class="text-muted mb-4">Our design philosophy is user-centric, focusing on creating intuitive and beautiful interfaces through a structured and creative process.</p>
+                <div class="row g-3 service-grid position-relative">
+                    <div class="col-6">
+                        <div class="sub-service-card">
+                            <i class="fa fa-users"></i>
+                            <h6>User Research</h6>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="sub-service-card">
+                            <i class="fa fa-ruler-combined"></i>
+                            <h6>Wireframing</h6>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="sub-service-card">
+                            <i class="fa fa-object-group"></i>
+                            <h6>Prototyping</h6>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="sub-service-card">
+                            <i class="fa fa-palette"></i>
+                            <h6>Visual Design</h6>
+                        </div>
+                    </div>
+                    <div class="center-circle"></div>
+                </div>
+            </div>
+        </div>
 
-            <!-- Card 6 -->
-            <div class="col-lg-4 col-md-4">
+        <!-- Service 4: App Development -->
+        <div class="row service-row reveal">
+            <div class="col-lg-5 mb-4 mb-lg-0">
                 <div class="service-card">
-                    <div class="service-img"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070" alt=""></div>
+                    <div class="service-img"><img src="images/app.jpg" alt="App Development"></div>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="service-icon"><i class="fa fa-mobile-screen"></i></div>
+                    <h3 class="fw-bold mb-0">App Development</h3>
+                </div>
+                <p class="lead text-muted mb-4">Native and cross-platform mobile applications.</p>
+                <p class="text-muted mb-4">From iOS to Android and cross-platform solutions, we build mobile applications that are scalable, secure, and user-friendly.</p>
+                <div class="row g-3 service-grid position-relative">
+                    <div class="col-6">
+                        <div class="sub-service-card">
+                            <i class="fa fa-apple"></i>
+                            <h6>iOS Development</h6>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="sub-service-card">
+                            <i class="fa fa-android"></i>
+                            <h6>Android Development</h6>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="sub-service-card">
+                            <i class="fa fa-random"></i>
+                            <h6>Cross-Platform</h6>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="sub-service-card">
+                            <i class="fa fa-tools"></i>
+                            <h6>App Maintenance</h6>
+                        </div>
+                    </div>
+                    <div class="center-circle"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Service 5: Brand Strategy -->
+        <div class="row service-row reveal">
+            <div class="col-lg-5 mb-4 mb-lg-0">
+                <div class="service-card">
+                    <div class="service-img"><img src="images/brand.jpg" alt="Brand Strategy"></div>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="service-icon"><i class="fa fa-lightbulb"></i></div>
+                    <h3 class="fw-bold mb-0">Brand Strategy</h3>
+                </div>
+                <p class="lead text-muted mb-4">Building strong, memorable brand identities.</p>
+                <p class="text-muted mb-4">We help you build a memorable brand from the ground up, establishing a strong identity that resonates with your target market.</p>
+                <div class="row g-3 service-grid position-relative">
+                    <div class="col-6">
+                        <div class="sub-service-card">
+                            <i class="fa fa-fingerprint"></i>
+                            <h6>Brand Identity</h6>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="sub-service-card">
+                            <i class="fa fa-bezier-curve"></i>
+                            <h6>Logo Design</h6>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="sub-service-card">
+                            <i class="fa fa-book"></i>
+                            <h6>Brand Guidelines</h6>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="sub-service-card">
+                            <i class="fa fa-map-signs"></i>
+                            <h6>Market Positioning</h6>
+                        </div>
+                    </div>
+                    <div class="center-circle"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Service 6: Live Dashboard -->
+        <div class="row service-row reveal">
+            <div class="col-lg-5 mb-4 mb-lg-0">
+                <div class="service-card">
+                    <div class="service-img"><img src="images/live dashbord.jpg" alt="Live Dashboard"></div>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="d-flex align-items-center mb-3">
                     <div class="service-icon"><i class="fa fa-chart-line"></i></div>
-                    <div class="service-content">
-                        <h5>Live Dashboard</h5>
-                        <p>Real-time monitoring and interactive data visualization for instant insights.</p>
+                    <h3 class="fw-bold mb-0">Live Dashboard</h3>
+                </div>
+                <p class="lead text-muted mb-4">Real-time data visualization for instant insights.</p>
+                <p class="text-muted mb-4">Transform your raw data into actionable insights with our custom dashboard solutions, providing real-time analytics at your fingertips.</p>
+                <div class="row g-3 service-grid position-relative">
+                    <div class="col-6">
+                        <div class="sub-service-card">
+                            <i class="fa fa-chart-pie"></i>
+                            <h6>Data Visualization</h6>
+                        </div>
                     </div>
+                    <div class="col-6">
+                        <div class="sub-service-card">
+                            <i class="fa fa-clock"></i>
+                            <h6>Real-time Analytics</h6>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="sub-service-card">
+                            <i class="fa fa-file-alt"></i>
+                            <h6>Employee Portals</h6>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="sub-service-card">
+                            <i class="fa fa-plug"></i>
+                            <h6>API Integration</h6>
+                        </div>
+                    </div>
+                    <div class="center-circle"></div>
                 </div>
             </div>
         </div>
@@ -535,7 +858,7 @@
   <div class="newsletter-card">
     <div class="row align-items-center justify-content-center">
         <div class="col-lg-10 text-center">
-            <div class="footer-logo mb-3" style="font-size: 2rem;">🌀 Agency</div>
+            <div class="footer-logo mb-3 d-flex align-items-center justify-content-center"><img src="images/log.png" alt="Agency Logo" class="footer-logo-img me-2"> <span class="text-gradient">Grow</span>&nbsp;<span style="color: black;">with</span>&nbsp;<span class="text-gradient">Digital</span></div>
             <p class="lead mb-4 text-muted" style="max-width: 700px; margin-left: auto; margin-right: auto;">We craft immersive digital experiences by merging stunning web design with data-driven marketing strategies.</p>
         </div>
     </div>
@@ -570,5 +893,20 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function reveal() {
+        var reveals = document.querySelectorAll(".reveal");
+        for (var i = 0; i < reveals.length; i++) {
+            var windowHeight = window.innerHeight;
+            var elementTop = reveals[i].getBoundingClientRect().top;
+            var elementVisible = 100;
+            if (elementTop < windowHeight - elementVisible) {
+                reveals[i].classList.add("active");
+            }
+        }
+    }
+    window.addEventListener("scroll", reveal);
+    reveal(); // Trigger once on load
+</script>
 </body>
 </html>

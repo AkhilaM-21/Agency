@@ -92,6 +92,23 @@
         .navbar-toggler[aria-expanded="true"] .fancy-toggler-icon span:nth-child(2) { opacity: 0; left: -30px; }
         .navbar-toggler[aria-expanded="true"] .fancy-toggler-icon span:nth-child(3) { top: 8px; transform: rotate(-135deg); }
 
+        .navbar-logo-img {
+            height: 35px;
+        }
+        @media (min-width: 992px) { /* lg breakpoint */
+            .navbar-logo-img {
+                height: 40px;
+            }
+        }
+        .footer-logo-img {
+            height: 50px;
+        }
+        @media (min-width: 768px) { /* md breakpoint */
+            .footer-logo-img {
+                height: 60px;
+            }
+        }
+
 
         /* Hero Section Styles */
         .hero-section {
@@ -620,27 +637,36 @@
             top: 0;
             bottom: 0;
             width: 51%;
-            background-image: url('https://picsum.photos/1920/1080?random=99');
-            background-size: 200% 100%;
-            background-repeat: no-repeat;
             z-index: 10;
+            overflow: hidden;
             transition: transform 1.5s cubic-bezier(0.77, 0, 0.175, 1);
         }
         .curtain.left {
             left: 0;
-            background-position: 0% center;
         }
         .curtain.right {
             right: 0;
-            background-position: 100% center;
+        }
+        .curtain img {
+            width: 200%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+        }
+        .curtain.left img {
+            left: 0;
+        }
+        .curtain.right img {
+            right: 0;
         }
         .split-wrapper.active .curtain.left {
             transform: translateX(-85%);
-            transition-delay: 0.2s;
+            transition-delay: 0.5s;
         }
         .split-wrapper.active .curtain.right {
             transform: translateX(85%);
-            transition-delay: 0.2s;
+            transition-delay: 0.5s;
         }
         .split-content {
             position: relative;
@@ -830,7 +856,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light shadow p-3 fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="index.html">Agency</a>
+        <a class="navbar-brand d-flex align-items-center" href="index.html"><img src="images/log.png" alt="Agency Logo" class="navbar-logo-img me-2"> <span class="text-gradient" style="text-transform: none;">Grow</span>&nbsp;<span style="color: black; text-transform: none;">with</span>&nbsp;<span class="text-gradient" style="text-transform: none;">Digital</span></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <div class="fancy-toggler-icon">
                 <span></span>
@@ -1051,8 +1077,12 @@
         </div>
 
         <div class="split-wrapper" id="splitSection">
-            <div class="curtain left"></div>
-            <div class="curtain right"></div>
+            <div class="curtain left">
+                <img src="images/why we.jpeg" alt="Why Choose Us">
+            </div>
+            <div class="curtain right">
+                <img src="images/why we.jpeg" alt="Why Choose Us">
+            </div>
             
             <div class="split-content container py-5">
                 <div class="timeline-wrapper mx-auto" style="max-width: 600px;">
@@ -1082,7 +1112,7 @@
   <div class="newsletter-card">
     <div class="row align-items-center justify-content-center">
         <div class="col-lg-10 text-center">
-            <div class="footer-logo mb-3" style="font-size: 2rem;">🌀 Agency</div>
+            <div class="footer-logo mb-3 d-flex align-items-center justify-content-center"><img src="images/log.png" alt="Agency Logo" class="footer-logo-img me-2"> <span class="text-gradient">Grow</span>&nbsp;<span style="color: black;">with</span>&nbsp;<span class="text-gradient">Digital</span></div>
             <p class="lead mb-4 text-muted" style="max-width: 700px; margin-left: auto; margin-right: auto;">
                 We craft immersive digital experiences by merging stunning web design with data-driven marketing strategies.
             </p>
